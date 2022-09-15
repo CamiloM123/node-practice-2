@@ -3,19 +3,46 @@ const { model } = require('mongoose');
 const course_model = require('../models/course.model');
 const course_routes = express.Router()
 
-person_routes.get('/', (req, res)=>{
-    course_model.find()
+course_routes.get('/', (req, res)=>{
+    course_model
+        .find()
         .then((data) => {res.json(data)})
-        .catch((err) => res.json(err));
+        .catch((err) => res.json({message: err}));
 })
-person_routes.post('/course', (req, res)=>{
+course_routes.post('/course', (req, res)=>{
     const new_course = course_model(req.body);
-    new_course.save()
+    new_course
+        .save()
         .then((data) => {res.json(data)})
-        .catch((err) => res.json(err))
+        .catch((err) => res.json({message: err}))
 })
-person_routes.get('/:courseId', (req, res)=>{})
-person_routes.put('/:courseId', (req, res)=>{})
-person_routes.delete('/:courseId', (req, res)=>{})
 
-model.exports = person_routes;
+course_routes.get('/:courseId', (req, res)=>{
+    const {courseId} = req.params
+    course_model
+        .findById(courseId)
+        .then((data) => res.json(data))
+        .catch((err) => res.json({message: err}))
+})
+
+
+
+course_routes.put('/:courseId', (req, res)=>{
+    const { courseId } = req.params;
+    const {course_name, course_code, amount_credits, amount_hours} = req.body;
+    course_model
+        .updateOne({_id : courseId} , {$set : {course_name, course_code, amount_credits, amount_hours}})
+        .then((data => res.json(data)))
+        .catch((err) => res.json({message : err}));
+})
+
+course_routes.delete('/:courseId', (req, res)=>{
+    const { courseId } = req.params;
+    course_model
+        .deleteOne({_id : courseId})
+        .then((data) => res.json(data))
+        .catch((err) => res.json({message: err}))
+})
+
+
+model.exports = course_routes;
