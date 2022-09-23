@@ -1,5 +1,4 @@
 const express = require('express');
-const { model } = require('mongoose');
 const course_model = require('../models/course.model');
 const course_routes = express.Router()
 
@@ -24,8 +23,6 @@ course_routes.get('/:courseId', (req, res)=>{
         .then((data) => res.json(data))
         .catch((err) => res.json({message: err}))
 })
-
-
 
 course_routes.put('/:courseId', (req, res)=>{
     const { courseId } = req.params;

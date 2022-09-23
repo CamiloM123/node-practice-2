@@ -1,0 +1,12 @@
+###
+GET http://localhost:5000/api/ HTTP/1.1
+
+###
+POST http://localhost:5000/api/person HTTP/1.1
+
+{
+    "username":"Camilo",
+    "lastname":"Muñoz",
+    "age":10,
+    "email":"juanca@hotmail.com"
+}
